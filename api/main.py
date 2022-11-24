@@ -1,0 +1,106 @@
+import uvicorn
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+from typing import List
+
+from src.custom_transformer import FeedBackModel
+from src.predict import single_prediction, batch_prediction
+from transformers import AutoTokenizer
+import glob
+import wandb
+import torch
+from . import config, device, wandb_api
+
+config = config["MODEL_CONFIG"]
+label_cols = config['label_cols'].split(',')
+
+# a best practice found here:
+# https://drivendata.github.io/cookiecutter-data-science/
+# find .env automatically by walking up directories until it's found
+
+
+local_model_path = glob.glob(f'artifacts/*/pytorch_model.bin')
+if len(local_model_path) == 0:
+    wandb.login(key=wandb_api)
+    # instantiate deafault run
+    run = wandb.init()
+    # Indicate the artifact we want to use with the use_artifact method.
+    artifact = run.use_artifact(config["artifact_path"], type='model')
+    # download locally the model
+    artifact_dir = artifact.download()
+    run.delete()
+# load the local model
+# it is a pytorch model: loaded as follows
+# https://pytorch.org/tutorials/beginner/saving_loading_models.html
+model = FeedBackModel(config['model_name'])
+local_model = local_model_path.pop()
+model.load_state_dict(
+    torch.load(
+        local_model,
+        map_location=torch.device(device)
+    )
+)
+
+tokenizer = AutoTokenizer.from_pretrained(config["model_name"])
+
+
+class SingleRequestId(BaseModel):
+    essay: str
+
+
+class MultipleRequestId(BaseModel):
+    essays: List[str]
+
+
+class EssayScores(BaseModel):
+    text: str
+    cohesion: float
+    syntax: float
+    vocabulary: float
+    phraseology: float
+    grammar: float
+    conventions: float
+
+
+class EssaysScores(BaseModel):
+    batch: List[EssayScores]
+
+
+app = FastAPI()
+
+
+# Defining path operation for root endpoint
+@app.get('/')
+def index():
+    return {
+        "text_examples": ["The individual has always had to struggle to keep from being overwhelmed by the tribe. If you try it, you will be lonely often, and sometimes frightened. But no price is too high to pay for the privilege of owning yourself"]
+    }
+
+
+@app.post("/single_essay", response_model=EssayScores)
+def single_essay_scoring(request: SingleRequestId):
+    text = request.essay
+    scores = single_prediction(text, tokenizer, model)
+    response = dict(zip(label_cols, scores))
+    response["text"] = request.essay
+    return EssayScores(**response)
+
+
+@app.post("/multiple_essays", response_model=EssaysScores)
+def multiple_essays_scoring(request: MultipleRequestId):
+    essays = request.essays
+    scores_dict = batch_prediction(essays, tokenizer, model)
+    response = []
+    for i, text in enumerate(essays):
+        element = dict(zip(label_cols, scores_dict[i]))
+        element["text"] = text
+        response.append(element)
+    response = {
+        "batch": response
+    }
+    return EssaysScores(**response)
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
