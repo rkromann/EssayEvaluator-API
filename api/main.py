@@ -29,7 +29,8 @@ if len(local_model_path) == 0:
     artifact = run.use_artifact(config["artifact_path"], type='model')
     # download locally the model
     artifact_dir = artifact.download()
-    run.delete()
+    # delete path
+    wandb.Api().run(run.path).delete()
 # load the local model
 # it is a pytorch model: loaded as follows
 # https://pytorch.org/tutorials/beginner/saving_loading_models.html

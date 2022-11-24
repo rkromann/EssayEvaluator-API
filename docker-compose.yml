@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  api:
+    image: api:latest
+    build: .
+    ports:
+      - 8000:8000
+    restart: always
+    env:
+      - wandb_api: $WANDB_API

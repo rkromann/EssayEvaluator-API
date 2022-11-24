@@ -1,0 +1,120 @@
+{
+    "os": "Linux-5.13.0-52-generic-x86_64-with-glibc2.34",
+    "python": "3.9.7",
+    "heartbeatAt": "2022-11-23T16:30:20.043601",
+    "startedAt": "2022-11-23T16:30:19.538243",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "api.main:app",
+        "--reload"
+    ],
+    "state": "running",
+    "program": "/home/zghrib/Projects/EssayEvaluator-API/venv/bin/uvicorn",
+    "codePath": "venv/bin/uvicorn",
+    "git": {
+        "remote": "https://github.com/Athena75/EssayEvaluator-API.git",
+        "commit": "f13bb6f8ec73d8715178ef4052053b39ea1f0c49"
+    },
+    "email": "zeineb@hexagone-ai.com",
+    "root": "/home/zghrib/Projects/EssayEvaluator-API",
+    "host": "hexagone",
+    "username": "zghrib",
+    "executable": "/home/zghrib/Projects/EssayEvaluator-API/venv/bin/python3.9",
+    "cpu_count": 8,
+    "cpu_count_logical": 16,
+    "cpu_freq": {
+        "current": 1839.406375,
+        "min": 1600.0,
+        "max": 4505.078
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1900.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1600.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1900.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1600.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1600.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1600.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1900.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1600.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1589.521,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1900.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1900.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1600.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1900.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1600.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1900.0,
+            "min": 1600.0,
+            "max": 4505.078
+        },
+        {
+            "current": 1600.0,
+            "min": 1600.0,
+            "max": 4505.078
+        }
+    ],
+    "disk": {
+        "total": 467.8895797729492,
+        "used": 94.44872665405273
+    },
+    "memory": {
+        "total": 11.51424789428711
+    }
+}
