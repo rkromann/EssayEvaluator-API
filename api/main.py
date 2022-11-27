@@ -3,7 +3,7 @@ import os
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
-import subprocess
+
 from typing import List
 import uuid
 from src.custom_transformer import FeedBackModel
@@ -14,17 +14,13 @@ import wandb
 import torch
 from src import config, device, wandb_api
 
+local_model_dir = config["PATHS"]["ARTIFACT_PATH"]
 config = config["MODEL_CONFIG"]
 label_cols = config['label_cols'].split(',')
 
-# a best practice found here:
-# https://drivendata.github.io/cookiecutter-data-science/
-# find .env automatically by walking up directories until it's found
-
 print(wandb_api)
-local_model_dir = "./artifacts"#"/api/artifacts/" "./artifacts"
 if len(glob.glob(os.path.join(local_model_dir, "*/pytorch_model.bin"))) == 0:
-    print("hello")
+    print("DOWNLOAD ARTIFACT")
     run_name = str(uuid.uuid4()).split('-')[0]
     wandb.login(key=wandb_api)
     # instantiate deafault run

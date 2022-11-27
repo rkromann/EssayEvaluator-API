@@ -2,7 +2,6 @@ FROM python:3.9
 
 RUN useradd -ms /bin/bash api
 
-ENV PYTHONPATH=/api
 WORKDIR /api
 EXPOSE 8000
 
