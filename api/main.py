@@ -1,5 +1,4 @@
 import os
-
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -77,6 +76,7 @@ app = FastAPI()
 @app.get('/')
 def index():
     return {
+        # Alice in wonderland
         "text_examples": ["It's no use going back to yesterday, because I was a different person then"]
     }
 
