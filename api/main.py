@@ -1,16 +1,18 @@
+import os
+
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+import subprocess
 from typing import List
-
+import uuid
 from src.custom_transformer import FeedBackModel
 from src.predict import single_prediction, batch_prediction
 from transformers import AutoTokenizer
 import glob
 import wandb
 import torch
-from . import config, device, wandb_api
+from src import config, device, wandb_api
 
 config = config["MODEL_CONFIG"]
 label_cols = config['label_cols'].split(',')
@@ -19,23 +21,27 @@ label_cols = config['label_cols'].split(',')
 # https://drivendata.github.io/cookiecutter-data-science/
 # find .env automatically by walking up directories until it's found
 
-
-local_model_path = glob.glob(f'artifacts/*/pytorch_model.bin')
-if len(local_model_path) == 0:
+print(wandb_api)
+local_model_dir = "./artifacts"#"/api/artifacts/" "./artifacts"
+if len(glob.glob(os.path.join(local_model_dir, "*/pytorch_model.bin"))) == 0:
+    print("hello")
+    run_name = str(uuid.uuid4()).split('-')[0]
     wandb.login(key=wandb_api)
     # instantiate deafault run
-    run = wandb.init()
+    run = wandb.init(id=run_name, resume=True)
     # Indicate the artifact we want to use with the use_artifact method.
     artifact = run.use_artifact(config["artifact_path"], type='model')
     # download locally the model
     artifact_dir = artifact.download()
     # delete path
     wandb.Api().run(run.path).delete()
+
 # load the local model
 # it is a pytorch model: loaded as follows
 # https://pytorch.org/tutorials/beginner/saving_loading_models.html
+
 model = FeedBackModel(config['model_name'])
-local_model = local_model_path.pop()
+local_model = glob.glob(os.path.join(local_model_dir, "*/pytorch_model.bin"))[0]
 model.load_state_dict(
     torch.load(
         local_model,
@@ -75,7 +81,7 @@ app = FastAPI()
 @app.get('/')
 def index():
     return {
-        "text_examples": ["The individual has always had to struggle to keep from being overwhelmed by the tribe. If you try it, you will be lonely often, and sometimes frightened. But no price is too high to pay for the privilege of owning yourself"]
+        "text_examples": ["It's no use going back to yesterday, because I was a different person then"]
     }
 
 

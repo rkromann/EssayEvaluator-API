@@ -7,5 +7,5 @@ services:
     ports:
       - 8000:8000
     restart: always
-    env:
-      - wandb_api: $WANDB_API
+    environment:
+      - WANDB_API=$WANDB_API
