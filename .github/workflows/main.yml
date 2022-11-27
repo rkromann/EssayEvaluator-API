@@ -38,4 +38,5 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Unit Testing with pytest
         run: |
-          pytest  api/test_main.py
+          export WANDB_API=${{ secrets.WANDB_API }}
+          pytest api/test_main.py
