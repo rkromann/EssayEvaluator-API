@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,4 +22,5 @@ jobs:
         run: |
           export WANDB_API=${{ secrets.WANDB_API }}
           pytest --disable-pytest-warnings
+          echo $?
 
