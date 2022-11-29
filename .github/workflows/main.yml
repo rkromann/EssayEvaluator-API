@@ -15,5 +15,5 @@ jobs:
       - name: Test with pytest
         run: |
           export WANDB_API=${{ secrets.WANDB_API }}
-          pytest --disable-pytest-warnings
+          python -m pytest --disable-pytest-warnings
 
