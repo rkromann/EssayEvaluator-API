@@ -24,13 +24,14 @@ The `Dockerfile`and `docker-compose.yml`[Optional] files are needed to create th
 
 Here's a high-level overview of the API:
 
-![alt text]()
+![alt text](https://rawcdn.githack.com/Athena75/EssayEvaluator-API/94fae2ba280145e60fb6d1424b4cbcf8455eba45/assets/api-workflow.png)
 
 It contains the following routes:
 
 * `/single_score` : POST request that allowing to predict a unique text input: this api can be the best choice for online applications. The `/single_essay` related function uses `single_prediction function, defined in `src/predict.py` file
+  ![alt text](https://rawcdn.githack.com/Athena75/EssayEvaluator-API/94fae2ba280145e60fb6d1424b4cbcf8455eba45/assets/single_essay.png)
 * `/multiple_essay` : POST request that supports batch predictions. The  `/multiple_essay` api function would use a `batch_prediction` function imported from the `src/predict.py python file
-
+  ![alt text](https://rawcdn.githack.com/Athena75/EssayEvaluator-API/94fae2ba280145e60fb6d1424b4cbcf8455eba45/assets/multiple_essays.png)
 ## Build Docker image
 There is two ways to build the related docker image 
 ### Use exclusively the `Dockerfile`:
@@ -68,7 +69,7 @@ To check the API is doc, you can open http://localhost:8000/docs:
 it would redirect you to the interactive interface where you can try the API from the browser. 
 You get something like this:
 
-![alt text]()
+![alt text](https://rawcdn.githack.com/Athena75/EssayEvaluator-API/94fae2ba280145e60fb6d1424b4cbcf8455eba45/assets/fastapi-doc.png)
 
 Other ways to try the API request:
 

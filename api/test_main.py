@@ -15,6 +15,7 @@ def test_index():
     assert response.json() == {
         "text_examples": [test_exp]
     }
+    print("TEST 1 PASSED")
 
 
 def test_single_essay_scoring():
@@ -43,6 +44,7 @@ def test_single_essay_scoring():
             )
         )
     ) == len(label_cols)
+    print("TEST 2 PASSED")
 
 
 def test_multiple_essays_scoring():
@@ -67,3 +69,4 @@ def test_multiple_essays_scoring():
         assert len(list(map(lambda x: x in element.keys(), label_cols))) == len(label_cols)
         # check all analysis metrics are in response
         assert len(list(map(lambda x: (element[x] < 5) and (element[x] > 0), label_cols))) == len(label_cols)
+    print("TEST 3 PASSED")
