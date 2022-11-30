@@ -24,10 +24,10 @@ jobs:
       - name: Loging W&B
         shell: bash
         env:
-          WANDB_API: ${{ secrets.WANDB_KEY }}
+          WANDB_API: ${{ secrets.WANDB_API }}
         run: wandb login "$WANDB_API"
       - name: Test with pytest
         env:
-          WANDB_API: ${{ secrets.WANDB_KEY }}
+          WANDB_API: ${{ secrets.WANDB_API }}
         run: |
           pytest --disable-pytest-warnings
