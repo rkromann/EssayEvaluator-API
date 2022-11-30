@@ -1,4 +1,6 @@
 import os
+import subprocess
+
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -30,11 +32,15 @@ if len(glob.glob(os.path.join(local_model_dir, "*/pytorch_model.bin"))) == 0:
     artifact_dir = artifact.download()
     # delete path
     wandb.Api().run(run.path).delete()
-
-# load the local model
+# have to kill the wandb process
+# because some zombie processes from wandb will still be running
+# and the CI jobs will fail
+subprocess.run(["pkill",  "-9",  "wandb"])
+########################
+# LOAD the local model #
+########################
 # it is a pytorch model: loaded as follows
 # https://pytorch.org/tutorials/beginner/saving_loading_models.html
-
 model = FeedBackModel(config['model_name'])
 local_model = glob.glob(os.path.join(local_model_dir, "*/pytorch_model.bin"))[0]
 model.load_state_dict(
