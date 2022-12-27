@@ -52,7 +52,7 @@ To get your wandb api token follow these steps:
 3. Run the built docker image:
 
 ```
-$ $ docker run -e "WANDB_API=$WANDB_API" -p 8000:8000 -t essayevaluator
+$ docker run -e "WANDB_API=$WANDB_API" -p 8000:8000 -t essayevaluator
 ```
 ### Use the `docker-compose.yml`:
 Even though we do not need to use the docker compase as we have a single service here 
