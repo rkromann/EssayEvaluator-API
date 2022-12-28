@@ -69,4 +69,4 @@ def test_multiple_essays_scoring():
         assert len(list(map(lambda x: x in element.keys(), label_cols))) == len(label_cols)
         # check all analysis metrics are in response
         assert len(list(map(lambda x: (element[x] < 5) and (element[x] > 0), label_cols))) == len(label_cols)
-    print("TEST 3 PASSED")
+    print("TEST 3 PASSED, This is amazing")
